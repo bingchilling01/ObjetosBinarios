@@ -66,7 +66,7 @@ public class Coche implements Serializable {
 		String modelo = ES.leeCadena("Modelo del coche: ");
 		int anyo = ES.leeEntero("Año del coche: ");
 		int cv = ES.leeEntero("Caballos: ");
-		int tipo = ES.leeEntero("Tipo de combustible: \n 1. Gasolina\n 2. Diésel", 1, 2);
+		int tipo = ES.leeEntero("Tipo de combustible: \n 1. Gasolina\n 2. Diésel\n 3. Electricidad", 1, 3);
 		Coche nuevoCoche = new Coche(marca, modelo, anyo, cv, tipo);
 
 		return nuevoCoche;
@@ -84,7 +84,7 @@ public class Coche implements Serializable {
 		modCoche.setAnyo(anyo);
 		int cv = ES.leeEntero("Caballos del coche: ");
 		modCoche.setCaballos(cv);
-		int tipo = ES.leeEntero("Cambiar tipo de combustible: \n 1. Gasolina\n 2. Diésel", 1, 2);
+		int tipo = ES.leeEntero("Cambiar tipo de combustible: \n 1. Gasolina\n 2. Diésel\n 3. Electricidad", 1, 3);
 		modCoche.setTipoCombustible(tipo);
 	}
 
@@ -99,6 +99,8 @@ public class Coche implements Serializable {
 			ES.msgln("Tipo de combustible: Gasolina");
 		} else if (this.tipoCombustible == 2) {
 			ES.msgln("Tipo de combustible: Diésel");
+		} else if (this.tipoCombustible == 3) {
+			ES.msgln("Tipo de combustible: Coche eléctrico");
 		}
 		ES.msgln("----------------------------------------\n");
 		contador++;

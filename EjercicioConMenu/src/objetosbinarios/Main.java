@@ -58,6 +58,9 @@ public class Main {
 	}
 	
 	private static String nombreArchivo = "coches.bin";
+	private final static String errorLectura = "No se ha podido leer los objectos";
+	private final static String errorEscritura = "No se ha podido escribir los objectos";
+	private final static String ficVacio = "El fichero está vacío";
 	
 	private static void escribirObjetoNuevo(Coche nuevoCoche) {
 		try {
@@ -75,7 +78,7 @@ public class Main {
 			}
 
 		} catch (Exception excEscritura) {
-			ES.msgErrln("No se ha podido escribir los objectos");
+			ES.msgErrln(errorEscritura);
 			excEscritura.printStackTrace();
 		}
 	}
@@ -94,7 +97,7 @@ public class Main {
 			}
 
 		} catch (Exception excEscritura) {
-			ES.msgErrln("No se ha podido escribir los objectos");
+			ES.msgErrln(errorEscritura);
 			excEscritura.printStackTrace();
 		}
 	}
@@ -125,10 +128,10 @@ public class Main {
 					contador = coche.imprimirCoche(contador);
 				}
 			} else {
-				ES.msgErrln("El archivo está vacío");
+				ES.msgErrln(ficVacio);
 			}
 		} catch (Exception excLectura) {
-			ES.msgErrln("No se ha podido leer los objectos");
+			ES.msgErrln(errorLectura);
 			excLectura.printStackTrace();
 		}
 	}
@@ -161,11 +164,11 @@ public class Main {
 				Coche.modificarCoche(listaCoches);
 				escribirArrayObjetos(listaCoches);
 			} else {
-				ES.msgErrln("El archivo está vacío");
+				ES.msgErrln(ficVacio);
 			}
 			
 		} catch (Exception excLectura) {
-			ES.msgErrln("No se ha podido leer los objectos");
+			ES.msgErrln(errorLectura);
 			excLectura.printStackTrace();
 		}
 	}
@@ -200,11 +203,11 @@ public class Main {
 				escribirArrayObjetos(listaCoches);
 				ES.msgln("Coche nº " + indice + " eliminado.");
 			} else {
-				ES.msgErrln("El archivo está vacío");
+				ES.msgErrln(ficVacio);
 			}
 			
 		} catch (Exception excLectura) {
-			ES.msgErrln("No se ha podido leer los objectos");
+			ES.msgErrln(errorLectura);
 			excLectura.printStackTrace();
 		}
 	}
