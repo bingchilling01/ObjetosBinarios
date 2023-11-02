@@ -76,9 +76,9 @@ public class Coche implements Serializable {
 		int indice = ES.leeEntero("Introduzca el ID del coche a modificar: ", 1, listaCoches.size());
 
 		Coche modCoche = listaCoches.get((indice - 1));
-		String marca = ES.leeCadena("Nueva marca del coche: ");
+		String marca = ES.leeCadena("Cambiar marca del coche: ");
 		modCoche.setMarca(marca);
-		String modelo = ES.leeCadena("Nuevo modelo del coche: ");
+		String modelo = ES.leeCadena("Cambiar modelo del coche: ");
 		modCoche.setModelo(modelo);
 		int anyo = ES.leeEntero("Año del coche: ");
 		modCoche.setAnyo(anyo);
@@ -89,16 +89,18 @@ public class Coche implements Serializable {
 	}
 
 	public int imprimirCoche(int contador) {
-		System.out.println("\nID del coche: " + contador);
-		System.out.println("Marca: " + this.marca);
-		System.out.println("Modelo: " + this.modelo);
-		System.out.println("Año: " + this.anyo);
-		System.out.println("Caballos: " + this.caballos + " CV.");
+		ES.msgln("----------------------------------------");
+		ES.msgln("ID del coche: " + contador);
+		ES.msgln("Marca: " + this.marca);
+		ES.msgln("Modelo: " + this.modelo);
+		ES.msgln("Año: " + this.anyo);
+		ES.msgln("Caballos: " + this.caballos + " CV.");
 		if (this.tipoCombustible == 1) {
-			System.out.println("Tipo de combustible: Gasolina");
+			ES.msgln("Tipo de combustible: Gasolina");
 		} else if (this.tipoCombustible == 2) {
-			System.out.println("Tipo de combustible: Diésel");
+			ES.msgln("Tipo de combustible: Diésel");
 		}
+		ES.msgln("----------------------------------------\n");
 		contador++;
 
 		return contador;
