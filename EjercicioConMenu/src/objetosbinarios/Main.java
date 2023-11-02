@@ -58,8 +58,8 @@ public class Main {
 	}
 	
 	private static String nombreArchivo = "coches.bin";
-	private final static String errorLectura = "No se ha podido leer los objectos";
-	private final static String errorEscritura = "No se ha podido escribir los objectos";
+	private final static String errorLectura = "No se ha podido leer los objetos";
+	private final static String errorEscritura = "No se ha podido escribir los objetos";
 	private final static String ficVacio = "El fichero está vacío";
 	
 	private static void escribirObjetoNuevo(Coche nuevoCoche) {
