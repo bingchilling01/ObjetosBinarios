@@ -91,10 +91,6 @@ public class Main {
 				escritura.writeObject(coche);
 				}
 				escritura.close();
-			} else {
-				OOSSinCabecera escrituraSinCabecera = new OOSSinCabecera(stSalida);
-				escrituraSinCabecera.writeObject(listaCoches);
-				escrituraSinCabecera.close();
 			}
 
 		} catch (Exception excEscritura) {
@@ -108,6 +104,10 @@ public class Main {
 		boolean endOfFile = false;
 		int contador = 1;
 		try {
+			File archivoDestino = new File(nombreArchivo);
+			if(!archivoDestino.exists()) {
+				archivoDestino.createNewFile();
+			}
 			ObjectInputStream lectura = new ObjectInputStream(new FileInputStream(nombreArchivo));
 
 			while (!endOfFile) {
@@ -139,6 +139,10 @@ public class Main {
 		int contador = 1;
 
 		try {
+			File archivoDestino = new File(nombreArchivo);
+			if(!archivoDestino.exists()) {
+				archivoDestino.createNewFile();
+			}
 			ObjectInputStream lectura = new ObjectInputStream(new FileInputStream(nombreArchivo));
 
 			while (!endOfFile) {
@@ -172,6 +176,10 @@ public class Main {
 		int contador = 1;
 
 		try {
+			File archivoDestino = new File(nombreArchivo);
+			if(!archivoDestino.exists()) {
+				archivoDestino.createNewFile();
+			}
 			ObjectInputStream lectura = new ObjectInputStream(new FileInputStream(nombreArchivo));
 
 			while (!endOfFile) {
@@ -190,7 +198,7 @@ public class Main {
 				int indice = ES.leeEntero("Introduzca el ID del coche que quiere eliminar: ", 1, listaCoches.size());
 				listaCoches.remove((indice-1));
 				escribirArrayObjetos(listaCoches);
-				ES.msgln("Coche nº " + indice + " eliminada.");
+				ES.msgln("Coche nº " + indice + " eliminado.");
 			} else {
 				ES.msgErrln("El archivo está vacío");
 			}
