@@ -105,7 +105,7 @@ public class EjercicioAccDir {
 			}
 				break;
 			case 4: {
-				// TODO
+				// TODO eliminar
 //				try (RandomAccessFile ficheroAlumnos = new RandomAccessFile(fichero, rw)) {
 //					ficheroAlumnos.seek(0);
 //					boolean encontrado = false;
