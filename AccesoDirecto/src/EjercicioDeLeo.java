@@ -1,4 +1,4 @@
-package leo;
+package org.example;
 
 import java.io.*;
 import java.util.Scanner;
@@ -6,10 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.ByteBuffer;
 
 public class StudentDatabaseAdvanced {
-    static final int RECORD_SIZE = 48;
     static final int ID_SIZE = 8;
     static final int NAME_SIZE = 32;
     static final int GRADE_SIZE = 8;
+    static final int SUBJECT_SIZE = 16;
+    static final int RECORD_SIZE = ID_SIZE + NAME_SIZE + GRADE_SIZE + SUBJECT_SIZE;
+
 
     // ACTUALIZAR CON NOMBRE DEL ARCHIVO
     static final String filename = "studiantes.bin";
@@ -46,7 +48,10 @@ public class StudentDatabaseAdvanced {
                                 String nombre = scanner.nextLine();
                                 System.out.println("Introduce nota del estudiante: ");
                                 long nota = scanner.nextLong();
-                                creaAlumno(id, nombre, nota, file, file.length());
+                                scanner.nextLine();
+                                System.out.println("Introduce la asignatura: ");
+                                String asignatura = scanner.nextLine();
+                                creaAlumno(id, nombre, nota, asignatura, file);
                             } else {
                                 System.err.println("El ID no puede ser inferior a 1");
                             }
@@ -161,9 +166,9 @@ public class StudentDatabaseAdvanced {
         scanner.close();
     }
 
-    static void creaAlumno(int id, String nombre, Long nota, RandomAccessFile file, long desplazamiento) {
+    static void creaAlumno(int id, String nombre, Long nota, String asignatura, RandomAccessFile file) {
         try {
-            file.seek(desplazamiento);
+            file.seek(file.length());
             ByteBuffer bufferId = ByteBuffer.allocate(ID_SIZE);
             bufferId.putInt(id);
             file.write(bufferId.array());
@@ -176,6 +181,11 @@ public class StudentDatabaseAdvanced {
             ByteBuffer buffer = ByteBuffer.allocate(GRADE_SIZE);
             buffer.putLong(nota);
             file.write(buffer.array());
+
+            byte[] asignaturaBytes = new byte[SUBJECT_SIZE];
+            byte[] subject = asignatura.getBytes(StandardCharsets.UTF_8);
+            System.arraycopy(subject, 0, asignaturaBytes, 0, Math.min(subject.length, SUBJECT_SIZE));
+            file.write(asignaturaBytes);
 
         }catch(IOException e) {
         }
@@ -262,7 +272,12 @@ public class StudentDatabaseAdvanced {
                     file.readFully(gradeBytes);
                     ByteBuffer gradeBuffer = ByteBuffer.wrap(gradeBytes);
                     long grade = gradeBuffer.getLong();
-                    System.out.println("Estudiante con id " + id + " encontrado: " + name + " " + grade);
+
+                    byte[] asignaturaBytes = new byte[SUBJECT_SIZE];
+                    file.readFully(asignaturaBytes);
+                    String asignatura = new String(asignaturaBytes, StandardCharsets.UTF_8).trim(); // Elimina espacios
+
+                    System.out.println("Estudiante con id " + id + " encontrado. Nombre: " + name + " Nota: " + grade + " Asignatura: " + asignatura);
                 }
 
             }
@@ -293,8 +308,14 @@ public class StudentDatabaseAdvanced {
                 file.readFully(gradeBytes);
                 ByteBuffer gradeBuffer = ByteBuffer.wrap(gradeBytes);
                 long grade = gradeBuffer.getLong();
+
+                byte[] asignaturaBytes = new byte[SUBJECT_SIZE];
+                file.readFully(asignaturaBytes);
+                String asignatura = new String(asignaturaBytes, StandardCharsets.UTF_8).trim(); // Elimina espacios
+
+
                 if(id != -1) {
-                    System.out.println(id + " " + name + " " + grade);
+                    System.out.println("ID: " + id + " Nombre: " + name + " Nota: " + grade + " Asignatura: " + asignatura);
                 }
             }
         } catch (IOException e) {
