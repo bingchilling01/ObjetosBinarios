@@ -14,8 +14,6 @@ public class StudentDatabaseAdvanced {
     // ACTUALIZAR CON NOMBRE DEL ARCHIVO
     static final String filename = "studiantes.bin";
 
-
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int option;
@@ -37,13 +35,22 @@ public class StudentDatabaseAdvanced {
                 case 1:
                     try {
                         file = new RandomAccessFile(filename,"rw");
-                        System.out.println("Introduce el identificador del estudiante: ");
-                        int id = scanner.nextInt();
-                        System.out.println("Introduce nombre del estudiante: ");
-                        String nombre = scanner.next();
-                        System.out.println("Introduce nota del estudiante: ");
-                        long nota = scanner.nextLong();
-                        creaAlumno(id, nombre, nota, file, file.length());
+                        boolean ok = false;
+                        while(!ok) {
+                            System.out.println("Introduce el identificador del estudiante: ");
+                            int id = scanner.nextInt();
+                            scanner.nextLine();
+                            if(id > 0) {
+                                ok = true;
+                                System.out.println("Introduce nombre del estudiante: ");
+                                String nombre = scanner.nextLine();
+                                System.out.println("Introduce nota del estudiante: ");
+                                long nota = scanner.nextLong();
+                                creaAlumno(id, nombre, nota, file, file.length());
+                            } else {
+                                System.err.println("El ID no puede ser inferior a 1");
+                            }
+                        }
 
                         file.close();
 
