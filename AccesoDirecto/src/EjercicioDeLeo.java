@@ -1,5 +1,6 @@
 package org.example;
 
+import javax.print.attribute.standard.MediaSize;
 import java.io.*;
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
@@ -7,9 +8,9 @@ import java.nio.ByteBuffer;
 
 public class StudentDatabaseAdvanced {
     static final int ID_SIZE = 8;
-    static final int NAME_SIZE = 32;
+    static final int NAME_SIZE = 128;
     static final int GRADE_SIZE = 8;
-    static final int SUBJECT_SIZE = 16;
+    static final int SUBJECT_SIZE = 128;
     static final int RECORD_SIZE = ID_SIZE + NAME_SIZE + GRADE_SIZE + SUBJECT_SIZE;
 
 
@@ -27,9 +28,10 @@ public class StudentDatabaseAdvanced {
             System.out.println("2. Buscar estudiante por ID");
             System.out.println("3. Modificar nota de estudiante");
             System.out.println("4. Modificar nombre estudiante");
-            System.out.println("5. Eliminar estudiante");
-            System.out.println("6. Listar todos los estudiantes");
-            System.out.println("7. Salir");
+            System.out.println("5. Modificar asignatura del estudiante");
+            System.out.println("6. Eliminar estudiante");
+            System.out.println("7. Listar todos los estudiantes");
+            System.out.println("8. Salir");
             System.out.print("Elija una opción: ");
             option = scanner.nextInt();
             switch (option) {
@@ -128,7 +130,29 @@ public class StudentDatabaseAdvanced {
                         e.printStackTrace();
                     }
                     break;
+
                 case 5:
+                    try {
+                        file = new RandomAccessFile(filename,"rw");
+                        System.out.println("Introduce el identificador del estudiante a modificar: ");
+                        int idBuscada = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.println("Introduce la nueva asignatura del estudiante: ");
+                        String nuevaAsignatura = scanner.nextLine();
+                        int nItem = buscaAlumno(idBuscada, file);
+                        if(nItem == -1) {
+                            System.out.println("Estudiante con id " + idBuscada + " NO encontrado");
+                        }else {
+                            modificaAsignatura(nuevaAsignatura, file, nItem);
+                        }
+                        file.close();
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case 6:
                     try {
                         file = new RandomAccessFile(filename,"rw");
                         System.out.println("Introduce el identificador del estudiante a eliminar: ");
@@ -145,7 +169,7 @@ public class StudentDatabaseAdvanced {
                         e.printStackTrace();
                     }
                     break;
-                case 6:
+                case 7:
                     try {
                         file = new RandomAccessFile(filename,"r");
                         mostrarAlumnos(file);
@@ -155,14 +179,14 @@ public class StudentDatabaseAdvanced {
                     } catch (IOException e) {
                     }
                     break;
-                case 7:
+                case 8:
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
                     break;
             }
-        } while (option != 7);
+        } while (option != 8);
         scanner.close();
     }
 
@@ -253,6 +277,19 @@ public class StudentDatabaseAdvanced {
         }
     }
 
+    static void modificaAsignatura(String nombre, RandomAccessFile file, int nItem) {
+        try {
+            file.seek(nItem*RECORD_SIZE + ID_SIZE + NAME_SIZE + GRADE_SIZE);
+
+            byte[] asignaturaBytes = new byte[SUBJECT_SIZE];
+            byte[] asignatura = nombre.getBytes(StandardCharsets.UTF_8);
+            System.arraycopy(asignatura, 0, asignaturaBytes, 0, Math.min(asignatura.length, SUBJECT_SIZE));
+            file.write(asignaturaBytes);
+
+        }catch(IOException e) {
+        }
+    }
+
     static int buscaAlumno(int id, RandomAccessFile file) {
         int posicionItem = -1;
         try {
@@ -277,7 +314,9 @@ public class StudentDatabaseAdvanced {
                     file.readFully(asignaturaBytes);
                     String asignatura = new String(asignaturaBytes, StandardCharsets.UTF_8).trim(); // Elimina espacios
 
-                    System.out.println("Estudiante con id " + id + " encontrado. Nombre: " + name + " Nota: " + grade + " Asignatura: " + asignatura);
+                    System.out.println("\n------------------------------------------------------------------------");
+                    System.out.println("Estudiante con ID: " + id + " encontrado. Nombre: " + name + ", Nota: " + grade + " Asignatura: " + asignatura);
+                    System.out.println("------------------------------------------------------------------------");
                 }
 
             }
@@ -315,11 +354,12 @@ public class StudentDatabaseAdvanced {
 
 
                 if(id != -1) {
+                    System.out.println("\n----------------------------------------------------------------");
                     System.out.println("ID: " + id + " Nombre: " + name + " Nota: " + grade + " Asignatura: " + asignatura);
+                    System.out.println("----------------------------------------------------------------\n");
                 }
             }
         } catch (IOException e) {
         }
     }
-
 }
