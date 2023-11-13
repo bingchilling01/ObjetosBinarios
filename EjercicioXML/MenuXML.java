@@ -47,7 +47,7 @@ public class MenuXML {
                     + "13. Eliminar película\n"
                     + "14. Aplicar cambios (Exportar XML)\n");
 
-            opcion = ES.leeEntero();
+            opcion = ES.leeEntero("Introduce la opción que quieras realizar: ");
 
             switch (opcion) {
                 case 0: {
@@ -412,9 +412,9 @@ public class MenuXML {
             NodeList titulos = pelicula.getElementsByTagName("titulo");
             if (pelicula.getAttribute("id").equalsIgnoreCase(busqueda) || titulos.item(0).getTextContent().equalsIgnoreCase(busqueda)) {
                 encontrado = true;
-                NodeList anios = pelicula.getElementsByTagName("genero");
+                NodeList generos = pelicula.getElementsByTagName("genero");
                 String gen_nuevo = ES.leeCadena("Introduce el nuevo género: ");
-                anios.item(0).setTextContent(gen_nuevo);
+                generos.item(0).setTextContent(gen_nuevo);
             }
         }
 
@@ -428,7 +428,7 @@ public class MenuXML {
         String busqueda = ES.leeCadena("Introduce el ID o el el título de la peli: ");
         for (int i = 0; i < peliculas.getLength(); i++) {
             Element pelicula = (Element) peliculas.item(i);
-            NodeList titulos = pelicula.getElementsByTagName("valoracion");
+            NodeList titulos = pelicula.getElementsByTagName("titulo");
             if (pelicula.getAttribute("id").equalsIgnoreCase(busqueda) || titulos.item(0).getTextContent().equalsIgnoreCase(busqueda)) {
                 encontrado = true;
                 NodeList valoracion = pelicula.getElementsByTagName("valoracion");
