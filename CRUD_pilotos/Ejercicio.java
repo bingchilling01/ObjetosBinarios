@@ -12,58 +12,95 @@ public class Ejercicio {
         int opcion;
         boolean salir = false;
 
+        int opcionPilotos;
+        int opcionEscuderias;
+
         while (!salir) {
-            ES.msgln("1. Insertar un piloto\n2. Mostrar lista de pilotos\n3. Modificar piloto\n4. Eliminar piloto");
-            ES.msgln("5. Insertar escuderìa\n6. Mostrar lista de escuderías\n7. Modificar escudería\n8. Eliminar escudería\n0. Salir");
+            ES.msgln("1. Pilotos\n2. Escuderías\n0. Salir");
             opcion = ES.leeEntero("Opción: ");
             switch (opcion) {
+
                 case 1: {
-                    String nombre = ES.leeCadena("Nombre del piloto: ");
-                    String apellidos = ES.leeCadena("Apellidos del piloto: ");
-                    int escuderia = ES.leeEntero("Escudería: ");
+                    boolean salirPilotos = false;
+                    while (!salirPilotos) {
+                        ES.msgln("1. Insertar un piloto\n2. Mostrar lista de pilotos\n3. Modificar piloto\n4. Eliminar piloto\n0. Menú principal");
+                        opcionPilotos = ES.leeEntero("Opción: ");
+                        switch (opcionPilotos) {
+                            case 1: {
+                                String nombre = ES.leeCadena("Nombre del piloto: ");
+                                String apellidos = ES.leeCadena("Apellidos del piloto: ");
+                                int escuderia = ES.leeEntero("Escudería: ");
 
-                    insertarPiloto(nombre, apellidos, escuderia);
+                                insertarPiloto(nombre, apellidos, escuderia);
+                                salirPilotos = true;
+                                break;
+                            }
 
+                            case 2: {
+                                consultaPilotos();
+                                salirPilotos = true;
+                                break;
+                            }
+
+                            case 3: {
+                                int idPilotoBuscado = ES.leeEntero("ID del piloto a actualizar: ");
+                                actualizaPiloto(idPilotoBuscado);
+                                salirPilotos = true;
+                                break;
+                            }
+
+                            case 4: {
+                                int idPilotoBuscado = ES.leeEntero("ID del piloto a eliminar: ");
+                                eliminaPiloto(idPilotoBuscado);
+                                salirPilotos = true;
+                                break;
+                            }
+
+                            case 0: {
+                                salirPilotos = true;
+                                break;
+                            }
+                        }
+                    }
                     break;
                 }
 
                 case 2: {
-                    consultaPilotos();
-                    break;
-                }
+                    boolean salirEscuderias = false;
+                    while (!salirEscuderias) {
+                        ES.msgln("1. Insertar una escudería\n2. Mostrar lista de escuderías\n3. Modificar escudería\n4. Eliminar escudería\n0. Menú principal");
+                        opcionEscuderias = ES.leeEntero("Opción: ");
 
-                case 3: {
-                    int idPilotoBuscado = ES.leeEntero("ID del piloto a actualizar: ");
-                    actualizaPiloto(idPilotoBuscado);
-                    break;
-                }
+                        switch (opcionEscuderias) {
+                            case 1: {
+                                String nombre = ES.leeCadena("Nombre de la escudería: ");
+                                insertarEscuderia(nombre);
+                                break;
+                            }
 
-                case 4: {
-                    int idPilotoBuscado = ES.leeEntero("ID del piloto a eliminar: ");
-                    eliminaPiloto(idPilotoBuscado);
-                    break;
-                }
+                            case 2: {
+                                consultaEscuderias();
+                                break;
+                            }
 
-                case 5: {
-                    String nombre = ES.leeCadena("Nombre de la escudería: ");
-                    insertarEscuderia(nombre);
-                    break;
-                }
+                            case 3: {
+                                int idEscuderiaBuscada = ES.leeEntero("ID de la escudería a actualizar: ");
+                                actualizaEscuderia(idEscuderiaBuscada);
+                                break;
+                            }
 
-                case 6: {
-                    consultaEscuderias();
-                    break;
-                }
+                            case 4: {
+                                int idEscuderiaBuscada = ES.leeEntero("ID de la escudería a eliminar: ");
+                                eliminaEscuderia(idEscuderiaBuscada);
+                                break;
+                            }
 
-                case 7: {
-                    int idEscuderiaBuscada = ES.leeEntero("ID de la escudería a actualizar: ");
-                    actualizaEscuderia(idEscuderiaBuscada);
-                    break;
-                }
-
-                case 8: {
-                    int idEscuderiaBuscada = ES.leeEntero("ID de la escudería a eliminar: ");
-                    eliminaEscuderia(idEscuderiaBuscada);
+                            case 0: {
+                                salirEscuderias = true;
+                                break;
+                            }
+                        }
+                    }
                     break;
                 }
 
